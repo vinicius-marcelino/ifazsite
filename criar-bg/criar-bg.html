@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="bgCanvas"></canvas>
+
+    <script>
+        const canvas = document.getElementById("bgCanvas");
+        const ctx = canvas.getContext("2d");
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // Fundo do site
+        ctx.fillStyle = "hsl(268, 67%, 5%)";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        const texture = new Image();
+        texture.src = "bola-bg.jpg"; // caminho correto
+
+        texture.onload = () => {
+            const numBolas = 5;
+
+            for (let i = 0; i < numBolas; i++) {
+                const size = Math.random() * 200 + 100; // tamanho aleatório
+                const x = Math.random() * canvas.width;
+                const y = Math.random() * canvas.height;
+
+                // Criar um path circular e recortar (clip)
+                ctx.save(); // salva estado
+                ctx.beginPath();
+                ctx.arc(x, y, size / 2, 0, Math.PI * 2);
+                ctx.closePath();
+                ctx.clip(); // tudo desenhado agora só aparece dentro do círculo
+
+                // Desenhar a imagem dentro do círculo
+                ctx.filter = "blur(15px)";
+                ctx.drawImage(texture, x - size / 2, y - size / 2, size, size);
+                ctx.filter = "none";
+
+                ctx.restore(); // volta ao estado normal, sem clip
+            }
+
+            // Transformar canvas em imagem para usar como background
+            const dataURL = canvas.toDataURL("image/png");
+            document.body.style.backgroundImage = `url(${dataURL})`;
+            document.body.style.backgroundRepeat = "repeat";
+            document.body.style.backgroundSize = "400px 400px";
+        };
+    </script>
+</body>
+
+</html>
