@@ -50,6 +50,10 @@ body {
     font-family: "Open Sans", sans-serif;
 }
 
+body::-webkit-scrollbar {
+    display: none;
+}
+
 a {
     text-decoration: none;
 }
@@ -365,7 +369,7 @@ section {
     z-index: 2;
 }
 
-#projetos button:hover  {
+#projetos button:hover {
     background: var(--cor-principal);
 }
 
@@ -431,6 +435,12 @@ section {
 
     font-size: 1.75rem;
     font-weight: bold;
+
+    transition: color 0.2s ease;
+}
+
+.membro:hover .funcao-membro {
+    color: var(--texto-destaque);
 }
 
 /* Seção contato */
